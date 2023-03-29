@@ -10,8 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping(ContaController.URI)
 public class ContaController {
@@ -33,6 +31,15 @@ public class ContaController {
     @RequestMapping(value = "/atualizar-conta", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ContaResponse> atualizarConta(@Valid @RequestBody ContaRequest contaRequest) {
         return new ResponseEntity<>(this.contaService.atualizarConta(contaRequest), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/pesquisar-contar-por-nome", method = RequestMethod.GET)
+    public ResponseEntity pesquisarContarPorNome(@RequestParam("nome") String nome) {
+        ContaResponse contaResponse = this.contaService.pesquisarContarPorNome(nome);
+        if (contaResponse == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(contaResponse, new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

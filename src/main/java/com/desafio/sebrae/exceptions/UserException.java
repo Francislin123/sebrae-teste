@@ -1,6 +1,6 @@
 package com.desafio.sebrae.exceptions;
 
-import com.bop.app.api.resources.common.response.ErrorElementResponse;
+import com.desafio.sebrae.exceptions.response.ErrorElementResponse;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;

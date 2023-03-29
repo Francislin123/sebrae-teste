@@ -29,7 +29,8 @@ public class ContaServiceImpl implements ContaService {
 
         final var conta = contaRepository.findByNome(contaRequest.getNome());
 
-        final var contaEntity = ContaEntity.builder().id(conta.getId()).nome(contaRequest.getNome()).descricao(contaRequest.getDescricao()).build();
+        final var contaEntity = ContaEntity.builder().id(conta.getId())
+                .nome(contaRequest.getNome()).descricao(contaRequest.getDescricao()).build();
 
         contaRepository.save(contaEntity);
 
@@ -38,7 +39,17 @@ public class ContaServiceImpl implements ContaService {
 
     @Override
     public void deletarConta(final Long id) {
-        contaRepository.delete(this.contaRepository.findById(id).orElseThrow(() -> new UserException(String.format("Conta nao encontrada pelo id='%s", id))));
+        contaRepository.delete(this.contaRepository.findById(id).orElseThrow(() ->
+                new UserException(String.format("Conta nao encontrada pelo id='%s", id))));
+    }
+
+    @Override
+    public ContaResponse pesquisarContarPorNome(String nome) {
+        final var conta = this.contaRepository.findByNome(nome);
+        if (conta != null) {
+            return ContaResponse.builder().nome(conta.getNome()).descricao(conta.getDescricao()).build();
+        }
+        return null;
     }
 
     @Override
